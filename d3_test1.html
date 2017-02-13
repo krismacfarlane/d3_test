@@ -1,0 +1,275 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1348.17">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #000000; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #000000; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+    span.Apple-tab-span {white-space:pre}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;meta charset="utf-8"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;style&gt;</span></p>
+<p class="p1"><span class="s1">body{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>width:1060px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>margin:50px auto;</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p1"><span class="s1">path {<span class="Apple-converted-space">  </span>stroke: #fff; }</span></p>
+<p class="p1"><span class="s1">path:hover {<span class="Apple-converted-space">  </span>opacity:0.9; }</span></p>
+<p class="p1"><span class="s1">rect:hover {<span class="Apple-converted-space">  </span>fill:blue; }</span></p>
+<p class="p1"><span class="s1">.axis {<span class="Apple-converted-space">  </span>font: 10px sans-serif; }</span></p>
+<p class="p1"><span class="s1">.legend tr{<span class="Apple-converted-space">    </span>border-bottom:1px solid grey; }</span></p>
+<p class="p1"><span class="s1">.legend tr:first-child{<span class="Apple-converted-space">    </span>border-top:1px solid grey; }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">.axis path,</span></p>
+<p class="p1"><span class="s1">.axis line {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>fill: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>stroke: #000;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>shape-rendering: crispEdges;</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">.x.axis path {<span class="Apple-converted-space">  </span>display: none; }</span></p>
+<p class="p1"><span class="s1">.legend{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>margin-bottom:76px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>display:inline-block;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>border-collapse: collapse;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>border-spacing: 0px;</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p1"><span class="s1">.legend td{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>padding:4px 5px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>vertical-align:bottom;</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p1"><span class="s1">.legendFreq, .legendPerc{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>align:right;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>width:50px;</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;/style&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;div id='dashboard'&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">&lt;script src="http://d3js.org/d3.v3.min.js"&gt;&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;script&gt;</span></p>
+<p class="p1"><span class="s1">function dashboard(id, fData){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>var barColor = 'steelblue';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function segColor(c){ return {low:"#807dba", mid:"#e08214",high:"#41ab5d"}[c]; }</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// compute total for each state.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>fData.forEach(function(d){d.total=d.freq.low+d.freq.mid+d.freq.high;});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// function to handle histogram.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function histoGram(fD){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>var hG={},<span class="Apple-converted-space">    </span>hGDim = {t: 60, r: 0, b: 30, l: 0};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>hGDim.w = 500 - hGDim.l - hGDim.r,<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>hGDim.h = 300 - hGDim.t - hGDim.b;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>//create svg for histogram.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>var hGsvg = d3.select(id).append("svg")</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.attr("width", hGDim.w + hGDim.l + hGDim.r)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.attr("height", hGDim.h + hGDim.t + hGDim.b).append("g")</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.attr("transform", "translate(" + hGDim.l + "," + hGDim.t + ")");</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// create function for x-axis mapping.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>var x = d3.scale.ordinal().rangeRoundBands([0, hGDim.w], 0.1)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>.domain(fD.map(function(d) { return d[0]; }));</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Add x-axis to the histogram svg.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>hGsvg.append("g").attr("class", "x axis")</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.attr("transform", "translate(0," + hGDim.h + ")")</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.call(d3.svg.axis().scale(x).orient("bottom"));</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Create function for y-axis map.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>var y = d3.scale.linear().range([hGDim.h, 0])</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>.domain([0, d3.max(fD, function(d) { return d[1]; })]);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Create bars for histogram to contain rectangles and freq labels.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>var bars = hGsvg.selectAll(".bar").data(fD).enter()</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>.append("g").attr("class", "bar");</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>//create the rectangles.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>bars.append("rect")</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.attr("x", function(d) { return x(d[0]); })</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.attr("y", function(d) { return y(d[1]); })</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.attr("width", x.rangeBand())</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.attr("height", function(d) { return hGDim.h - y(d[1]); })</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.attr('fill',barColor)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.on("mouseover",mouseover)// mouseover is defined below.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.on("mouseout",mouseout);// mouseout is defined below.</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>//Create the frequency labels above the rectangles.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>bars.append("text").text(function(d){ return d3.format(",")(d[1])})</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.attr("x", function(d) { return x(d[0])+x.rangeBand()/2; })</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.attr("y", function(d) { return y(d[1])-5; })</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.attr("text-anchor", "middle");</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function mouseover(d){<span class="Apple-converted-space">  </span>// utility function to be called on mouseover.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// filter for selected state.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>var st = fData.filter(function(s){ return s.State == d[0];})[0],</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>nD = d3.keys(st.freq).map(function(s){ return {type:s, freq:st.freq[s]};});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">               </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// call update functions of pie-chart and legend. <span class="Apple-converted-space">   </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>pC.update(nD);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>leg.update(nD);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function mouseout(d){<span class="Apple-converted-space">    </span>// utility function to be called on mouseout.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// reset the pie-chart and legend. <span class="Apple-converted-space">   </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>pC.update(tF);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>leg.update(tF);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// create function to update the bars. This will be used by pie-chart.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>hG.update = function(nD, color){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// update the domain of the y-axis map to reflect change in frequencies.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>y.domain([0, d3.max(nD, function(d) { return d[1]; })]);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Attach the new data to the bars.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>var bars = hGsvg.selectAll(".bar").data(nD);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// transition the height and color of rectangles.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>bars.select("rect").transition().duration(500)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>.attr("y", function(d) {return y(d[1]); })</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>.attr("height", function(d) { return hGDim.h - y(d[1]); })</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>.attr("fill", color);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// transition the frequency labels location and change value.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>bars.select("text").transition().duration(500)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>.text(function(d){ return d3.format(",")(d[1])})</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>.attr("y", function(d) {return y(d[1])-5; }); <span class="Apple-converted-space">           </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>} <span class="Apple-converted-space">       </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return hG;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// function to handle pieChart.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function pieChart(pD){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>var pC ={},<span class="Apple-converted-space">    </span>pieDim ={w:250, h: 250};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>pieDim.r = Math.min(pieDim.w, pieDim.h) / 2;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// create svg for pie chart.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>var piesvg = d3.select(id).append("svg")</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.attr("width", pieDim.w).attr("height", pieDim.h).append("g")</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.attr("transform", "translate("+pieDim.w/2+","+pieDim.h/2+")");</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// create function to draw the arcs of the pie slices.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>var arc = d3.svg.arc().outerRadius(pieDim.r - 10).innerRadius(0);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// create a function to compute the pie slice angles.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>var pie = d3.layout.pie().sort(null).value(function(d) { return d.freq; });</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Draw the pie slices.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>piesvg.selectAll("path").data(pie(pD)).enter().append("path").attr("d", arc)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.each(function(d) { this._current = d; })</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.style("fill", function(d) { return segColor(d.data.type); })</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.on("mouseover",mouseover).on("mouseout",mouseout);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// create function to update pie-chart. This will be used by histogram.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>pC.update = function(nD){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>piesvg.selectAll("path").data(pie(nD)).transition().duration(500)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>.attrTween("d", arcTween);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>} <span class="Apple-converted-space">       </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Utility function to be called on mouseover a pie slice.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function mouseover(d){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// call the update function of histogram with new data.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>hG.update(fData.map(function(v){<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>return [v.State,v.freq[d.data.type]];}),segColor(d.data.type));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>//Utility function to be called on mouseout a pie slice.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function mouseout(d){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// call the update function of histogram with all data.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>hG.update(fData.map(function(v){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>return [v.State,v.total];}), barColor);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Animating the pie-slice requiring a custom function which specifies</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// how the intermediate paths should be drawn.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function arcTween(a) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>var i = d3.interpolate(this._current, a);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>this._current = i(0);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return function(t) { return arc(i(t));<span class="Apple-converted-space">    </span>};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>} <span class="Apple-converted-space">   </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return pC;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// function to handle legend.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function legend(lD){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>var leg = {};</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// create table for legend.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>var legend = d3.select(id).append("table").attr('class','legend');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// create one row per segment.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>var tr = legend.append("tbody").selectAll("tr").data(lD).enter().append("tr");</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// create the first column for each segment.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>tr.append("td").append("svg").attr("width", '16').attr("height", '16').append("rect")</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.attr("width", '16').attr("height", '16')</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>.attr("fill",function(d){ return segColor(d.type); });</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// create the second column for each segment.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>tr.append("td").text(function(d){ return d.type;});</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// create the third column for each segment.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>tr.append("td").attr("class",'legendFreq')</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.text(function(d){ return d3.format(",")(d.freq);});</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// create the fourth column for each segment.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>tr.append("td").attr("class",'legendPerc')</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.text(function(d){ return getLegend(d,lD);});</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Utility function to be used to update the legend.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>leg.update = function(nD){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// update the data attached to the row elements.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>var l = legend.select("tbody").selectAll("tr").data(nD);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// update the frequencies.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>l.select(".legendFreq").text(function(d){ return d3.format(",")(d.freq);});</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// update the percentage column.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>l.select(".legendPerc").text(function(d){ return getLegend(d,nD);}); <span class="Apple-converted-space">       </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function getLegend(d,aD){ // Utility function to compute percentage.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return d3.format("%")(d.freq/d3.sum(aD.map(function(v){ return v.freq; })));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return leg;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// calculate total frequency by segment for all state.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>var tF = ['low','mid','high'].map(function(d){<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return {type:d, freq: d3.sum(fData.map(function(t){ return t.freq[d];}))};<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}); <span class="Apple-converted-space">   </span></span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// calculate total frequency by state for all segment.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>var sF = fData.map(function(d){return [d.State,d.total];});</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>var hG = histoGram(sF), // create the histogram.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>pC = pieChart(tF), // create the pie-chart.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>leg= legend(tF);<span class="Apple-converted-space">  </span>// create the legend.</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p1"><span class="s1">&lt;/script&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;script&gt;</span></p>
+<p class="p1"><span class="s1">var freqData=[</span></p>
+<p class="p1"><span class="s1">{State:'AL',freq:{low:4786, mid:1319, high:249}}</span></p>
+<p class="p1"><span class="s1">,{State:'AZ',freq:{low:1101, mid:412, high:674}}</span></p>
+<p class="p1"><span class="s1">,{State:'CT',freq:{low:932, mid:2149, high:418}}</span></p>
+<p class="p1"><span class="s1">,{State:'DE',freq:{low:832, mid:1152, high:1862}}</span></p>
+<p class="p1"><span class="s1">,{State:'FL',freq:{low:4481, mid:3304, high:948}}</span></p>
+<p class="p1"><span class="s1">,{State:'GA',freq:{low:1619, mid:167, high:1063}}</span></p>
+<p class="p1"><span class="s1">,{State:'IA',freq:{low:1819, mid:247, high:1203}}</span></p>
+<p class="p1"><span class="s1">,{State:'IL',freq:{low:4498, mid:3852, high:942}}</span></p>
+<p class="p1"><span class="s1">,{State:'IN',freq:{low:797, mid:1849, high:1534}}</span></p>
+<p class="p1"><span class="s1">,{State:'KS',freq:{low:162, mid:379, high:471}}</span></p>
+<p class="p1"><span class="s1">];</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">dashboard('#dashboard',freqData);</span></p>
+<p class="p1"><span class="s1">&lt;/script&gt;</span></p>
+</body>
+</html>
